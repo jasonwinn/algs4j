@@ -26,6 +26,7 @@ class PercolationTest extends Specification {
         percolation.isOpen(4, 1)
         percolation.isOpen(5, 1)
         !percolation.isFull(3, 2)
+        percolation.isFull(5, 1)
         percolation.percolates()
 
     }
@@ -45,6 +46,25 @@ class PercolationTest extends Specification {
         percolation.isOpen(4, 4)
         percolation.isOpen(5, 5)
         !percolation.isFull(3, 2)
+        percolation.isFull(1, 1)
+        !percolation.isFull(2, 2)
+        !percolation.percolates()
+
+    }
+
+    def "Testing 5x5 no percolation is Full"() {
+        when:
+        percolation.open(1, 1)
+        percolation.open(2, 1)
+        percolation.open(1, 3)
+        percolation.open(2, 3)
+
+        then:
+        percolation.isFull(2, 3)
+        percolation.isFull(2, 1)
+        !percolation.isFull(2, 2)
+        !percolation.isFull(1, 2)
+        !percolation.isFull(1, 4)
         !percolation.percolates()
 
     }
@@ -71,6 +91,24 @@ class PercolationTest extends Specification {
         !percolation.isFull(3, 2)
         percolation.isFull(2, 3)
         percolation.percolates()
+
+    }
+
+    def "Testing 5x5 backwash"() {
+        when:
+        percolation.open(1, 1)
+        percolation.open(2, 1)
+        percolation.open(3, 1)
+        percolation.open(4, 1)
+        percolation.open(5, 1)
+        percolation.open(5, 3)
+        percolation.open(4, 3)
+        percolation.open(4, 4)
+
+        then:
+        percolation.percolates()
+        !percolation.isFull(5, 3)
+        !percolation.isFull(4, 4)
 
     }
 

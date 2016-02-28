@@ -7,7 +7,6 @@ public class Percolation {
     private final int N;
     private final boolean[][] grid;
     private final WeightedQuickUnionUF uf;
-    private final int virtualBottomSiteIdx;
     private final int virtualTopSiteIdx;
     private boolean hasOpenedSites = false;
 
@@ -20,13 +19,11 @@ public class Percolation {
         }
         this.N = N;
         this.grid = new boolean[N][N];
-        this.uf = new WeightedQuickUnionUF(N * N + 2);
-        this.virtualBottomSiteIdx = N * N;
-        this.virtualTopSiteIdx = virtualBottomSiteIdx + 1;
-        // link all in top and bottom rows to their virtual sites
+        this.uf = new WeightedQuickUnionUF(N * N + 1);
+        this.virtualTopSiteIdx = N * N;
+        // link top row to their virtual site
         for (int i = 1; i <= N; i++) {
             uf.union(virtualTopSiteIdx, toUFIndex(1, i));
-            uf.union(virtualBottomSiteIdx, toUFIndex(N, i));
         }
     }
 
@@ -72,7 +69,16 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        return hasOpenedSites && uf.connected(virtualTopSiteIdx, virtualBottomSiteIdx);
+        return hasOpenedSites && hasConnectionWithLastRow();
+    }
+
+    private boolean hasConnectionWithLastRow() {
+        for (int i = 1; i <= N; i++) {
+            if (uf.connected(virtualTopSiteIdx, toUFIndex(N, i))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int toUFIndex(final int row, final int column) {
