@@ -9,7 +9,7 @@ public class Percolation {
     private final WeightedQuickUnionUF uf;
     private final int virtualBottomSiteIdx;
     private final int virtualTopSiteIdx;
-
+    private boolean hasOpenedSites = false;
 
     /**
      * create N-by-N grid, with all sites blocked
@@ -36,6 +36,7 @@ public class Percolation {
     public void open(int i, int j) {
         checkBounds(i, j);
         if (!isOpen(i, j)) {
+            hasOpenedSites = true;
             grid[i - 1][j - 1] = true;
             // check the bounds to find the neighbours
             if (i != 1 && isOpen(i - 1, j)) {
@@ -71,7 +72,7 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        return uf.connected(virtualTopSiteIdx, virtualBottomSiteIdx);
+        return hasOpenedSites && uf.connected(virtualTopSiteIdx, virtualBottomSiteIdx);
     }
 
     private int toUFIndex(final int row, final int column) {

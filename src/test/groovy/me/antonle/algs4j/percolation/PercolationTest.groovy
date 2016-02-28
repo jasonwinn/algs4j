@@ -73,4 +73,22 @@ class PercolationTest extends Specification {
         percolation.percolates()
 
     }
+
+    def "Simple 1x1 percolation"() {
+        when:
+        def percolation = new Percolation(1)
+
+        then:
+        !percolation.percolates()
+
+    }
+
+    def "Simple 2x2 percolation"() {
+        when:
+        def percolation = new Percolation(2)
+
+        then:
+        !percolation.percolates()
+
+    }
 }
