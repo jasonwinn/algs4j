@@ -1,4 +1,4 @@
-package me.antonle.algs4j.percolation
+package me.antonle.algs4j.exercise
 
 class AlgoAnalysisAssignment {
 
