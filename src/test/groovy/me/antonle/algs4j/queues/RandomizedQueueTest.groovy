@@ -1,5 +1,6 @@
 package me.antonle.algs4j.queues
 
+import edu.princeton.cs.algs4.StdRandom
 import spock.lang.Specification
 
 class RandomizedQueueTest extends Specification {
@@ -47,5 +48,42 @@ class RandomizedQueueTest extends Specification {
         thrown NoSuchElementException
         queue.isEmpty()
 
+    }
+
+    def "Random multiple enqueue/dequeue/sample"() {
+        expect:
+        for (int i = 0; i < 10000; i++) {
+             randomAction(queue, StdRandom.uniform(5))
+        }
+
+    }
+
+    void randomAction(RandomizedQueue<String> queue, int p) {
+        int N = 1000
+        switch (p) {
+            case 0:
+                queue.enqueue(String.valueOf(StdRandom.uniform(N)))
+                break
+            case 1:
+                try {
+                    queue.dequeue()
+                } catch (NoSuchElementException e) {
+                    // do nothing
+                }
+                break
+            case 2:
+                try {
+                    queue.sample()
+                } catch (NoSuchElementException e) {
+                    // do nothing
+                }
+                break
+            case 3:
+                queue.size()
+                break
+            case 4:
+                queue.isEmpty()
+                break
+        }
     }
 }
