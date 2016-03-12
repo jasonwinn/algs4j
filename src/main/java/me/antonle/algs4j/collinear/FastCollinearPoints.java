@@ -24,6 +24,7 @@ public class FastCollinearPoints {
 
     public FastCollinearPoints(Point[] points) {
         Point[] pointsCopy = Arrays.copyOf(points, points.length);
+        checkDuplicatedEntries(pointsCopy);
 
         for (Point startPoint : points) {
             Arrays.sort(pointsCopy, startPoint.slopeOrder());
@@ -34,7 +35,6 @@ public class FastCollinearPoints {
 
             for (int i = 1; i < pointsCopy.length; i++) {
                 Point comparePoint = pointsCopy[i];
-                checkDuplicatedEntries(startPoint, comparePoint);
                 slope = startPoint.slopeTo(comparePoint);
                 if (slope == previousSlope) {
                     slopePoints.add(comparePoint);
@@ -79,11 +79,16 @@ public class FastCollinearPoints {
         }
     }
 
-    private void checkDuplicatedEntries(Point startPoint, Point comparePoint) {
-        if (startPoint.compareTo(comparePoint) == 0) {
-            throw new IllegalArgumentException("Duplicated entries in given points");
+    private void checkDuplicatedEntries(Point[] points) {
+        Arrays.sort(points);
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].compareTo(points[i + 1]) == 0) {
+                throw new IllegalArgumentException("Duplicated entries in given points");
+            }
+
         }
     }
+
 
     public int numberOfSegments() {
         return segments.size();
