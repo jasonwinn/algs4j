@@ -45,4 +45,23 @@ class FastCollinearPointsTest extends Specification {
         then:
         thrown NullPointerException
     }
+
+    def "Input data is not changed"() {
+        given:
+        points.add(new Point(1, 1))
+        points.add(new Point(1, 0))
+        points.add(new Point(0, 0))
+        def originalData = points.toArray(points.toArray() as Point[])
+        def insertData = points.toArray(points.toArray() as Point[])
+
+        when:
+        fastCollinearPoints = new FastCollinearPoints(insertData)
+
+        then:
+        for (int i = 0; i < insertData.length; i++) {
+            assert originalData[i].compareTo(insertData[i]) == 0
+        }
+
+
+    }
 }
