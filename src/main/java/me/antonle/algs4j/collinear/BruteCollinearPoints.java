@@ -24,11 +24,11 @@ public class BruteCollinearPoints {
     private LineSegment[] segments;
 
     public BruteCollinearPoints(Point[] points) {
-        checkDuplicatedEntries(points);
         ArrayList<LineSegment> foundSegments = new ArrayList<>();
 
         Point[] pointsCopy = Arrays.copyOf(points, points.length);
         Arrays.sort(pointsCopy);
+        checkDuplicatedEntries(pointsCopy);
 
         for (int p = 0; p < pointsCopy.length - 3; p++) {
             for (int q = p + 1; q < pointsCopy.length - 2; q++) {
@@ -56,10 +56,8 @@ public class BruteCollinearPoints {
 
     private void checkDuplicatedEntries(Point[] points) {
         for (int i = 0; i < points.length - 1; i++) {
-            for (int j = i + 1; j < points.length; j++) {
-                if (points[i].compareTo(points[j]) == 0) {
-                    throw new IllegalArgumentException("Duplicated entries in given points");
-                }
+            if (points[i].compareTo(points[i + 1]) == 0) {
+                throw new IllegalArgumentException("Duplicated entries in given points");
             }
         }
     }

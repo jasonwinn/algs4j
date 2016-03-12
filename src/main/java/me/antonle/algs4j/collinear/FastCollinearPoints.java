@@ -23,8 +23,8 @@ public class FastCollinearPoints {
 
 
     public FastCollinearPoints(Point[] points) {
-        checkDuplicatedEntries(points);
         Point[] pointsCopy = Arrays.copyOf(points, points.length);
+        checkDuplicatedEntries(pointsCopy);
 
         for (Point startPoint : points) {
             Arrays.sort(pointsCopy, startPoint.slopeOrder());
