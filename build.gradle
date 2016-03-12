@@ -21,13 +21,14 @@ dependencies {
 }
 
 String submissionsDir = 'submissions'
+String srcDir = 'src/main/java/me/antonle/algs4j'
 
 task deleteCopySrc(type: Delete) {
     delete(submissionsDir)
 }
 
 task copySrc(type: Copy, dependsOn: 'deleteCopySrc') {
-    from('src/main/java/me/antonle/algs4j')
+    from(srcDir)
     include('**/*.java')
     filter { String line ->
         line.replaceAll($/package me.antonle.algs4j.*/$, "")
@@ -37,10 +38,10 @@ task copySrc(type: Copy, dependsOn: 'deleteCopySrc') {
 
 task submitAll(dependsOn: tasks.matching { Task task -> task.name.startsWith("submit-") })
 
-createZipTasks(submissionsDir)
+createZipTasks(submissionsDir, srcDir)
 
-private void createZipTasks(String submissionsDir) {
-    FileTree tree = fileTree('src/main/java/me/antonle/algs4j').include('**/*.java') as FileTree
+private void createZipTasks(String submissionsDir, String srcDir) {
+    FileTree tree = fileTree(srcDir).include('**/*.java') as FileTree
     def dirs = []
     tree.visit { FileVisitDetails element ->
         if (element.isDirectory()) {
