@@ -19,3 +19,43 @@ dependencies {
     testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
 
 }
+
+String submissionsDir = 'submissions'
+
+task deleteCopySrc(type: Delete) {
+    delete(submissionsDir)
+}
+
+task copySrc(type: Copy, dependsOn: 'deleteCopySrc') {
+    from('src/main/java/me/antonle/algs4j')
+    include('**/*.java')
+    filter { String line ->
+        line.replaceAll($/package me.antonle.algs4j.*/$, "")
+    }
+    into("$submissionsDir/src")
+}
+
+task submitAll(dependsOn: tasks.matching { Task task -> task.name.startsWith("submit-") })
+
+createZipTasks(submissionsDir)
+
+private void createZipTasks(String submissionsDir) {
+    FileTree tree = fileTree('src/main/java/me/antonle/algs4j').include('**/*.java') as FileTree
+    def dirs = []
+    tree.visit { FileVisitDetails element ->
+        if (element.isDirectory()) {
+            dirs << element.name
+        }
+    }
+    dirs.each { dirName ->
+        tasks.create(name: "submit-$dirName", dependsOn: 'copySrc', type: Zip) {
+            from("$submissionsDir/src/$dirName")
+            include('**/*.java')
+            destinationDir = file(submissionsDir)
+            baseName = dirName
+            version = null
+        }
+    }
+}
+
+
