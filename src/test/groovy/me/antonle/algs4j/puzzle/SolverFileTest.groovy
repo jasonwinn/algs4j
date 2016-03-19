@@ -7,15 +7,15 @@ import spock.lang.Unroll
 class SolverFileTest extends Specification {
 
     private static String REGEX_FILE = /puzzle.*/
-    private static String REGEX1 = /puzzle([0-9]+).txt/
-    private static String REGEX2 = /puzzle.+-([0-9]+).txt/
+    private static String REGEX1 = /puzzle([0-1][0-9]).txt/ // use less files for testing
+    private static String REGEX2 = /puzzle.+-([0-1][0-9]).txt/ // use less files for testing
     private static String REGEX_UNSOLVABLE = /puzzle.+unsolvable.+txt/
 
     private static List<TestBoard> testData = new ArrayList<>()
 
     static {
         def files = []
-        def dir = new File("/Users/anton/Developer/edu/algs4j/src/test/resources/8puzzle")
+        def dir = new File(this.getClass().getResource('/8puzzle').file)
         dir.eachFile {
             file ->
                 if (file.name.matches(REGEX_FILE)) {
@@ -35,6 +35,8 @@ class SolverFileTest extends Specification {
             }
             else if (matcher_unsol.matches()) {
                 moves = -1
+            } else {
+                continue
             }
             Board board = getBlocksFromFile(file.absolutePath)
             testData.add(new TestBoard(moves, board, fileName))
