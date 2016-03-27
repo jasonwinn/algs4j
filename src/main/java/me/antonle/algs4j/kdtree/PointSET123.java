@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 
 /**
  * Brute-force implementation.
- * Write a mutable data type PointSET.java that represents a set of points in the unit square.
+ * Write a mutable data type PointSET123.java that represents a set of points in the unit square.
  * Implement the following API by using a red-black BST (using either SET from algs4.jar or java.util.TreeSet).
  * <p>
  * Corner cases.
@@ -21,14 +21,14 @@ import static java.util.stream.Collectors.toList;
  * of the number of points in the set in the worst case; it should support nearest() and range() in time proportional
  * to the number of points in the set.
  */
-public class PointSET {
+public class PointSET123 {
 
     private TreeSet<Point2D> points;
 
     /**
      * construct an empty set of points
      */
-    public PointSET() {
+    public PointSET123() {
         points = new TreeSet<>();
     }
 
@@ -61,7 +61,7 @@ public class PointSET {
      * @throws NullPointerException
      */
     public boolean contains(Point2D p) {
-        checkNotNull(p, "Null is never contained in a PointSET");
+        checkNotNull(p, "Null is never contained in a PointSET123");
         return points.contains(p);
     }
 
