@@ -64,4 +64,18 @@ class KdTreeTest extends Specification {
         0    | 0    | 0.4  | 0.4  || 4
 
     }
+
+    def "Testing nearest point"() {
+        given:
+        def nearest = new Point2D(0.1d, 0.1d)
+        def farthest = new Point2D(0.5d, 0.5d)
+        kdTree.insert(nearest)
+        kdTree.insert(farthest)
+
+        when:
+        def actualNearest = kdTree.nearest(new Point2D(0.2d, 0.2d))
+
+        then:
+        nearest == actualNearest
+    }
 }
