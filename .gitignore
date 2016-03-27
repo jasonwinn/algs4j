@@ -17,6 +17,7 @@ local.properties
 .gradletasknamecache
 .gradle/
 build/
+gradle-wrapper.jar
 
 #submissions
 submissions
