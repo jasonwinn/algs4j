@@ -20,6 +20,7 @@ dependencies {
 
 }
 
+
 String submissionsDir = 'submissions'
 String srcDir = 'src/main/java/me/antonle/algs4j'
 
