@@ -40,7 +40,6 @@ public class WordNet {
 
         readSynsets(synsets);
         Digraph digraph = createDigraph(hypernyms);
-        verifyDigraph(digraph);
         sap = new SAP(digraph);
 
     }
@@ -74,7 +73,7 @@ public class WordNet {
             int rootID = Integer.parseInt(ids[0]);
             for (int i = 1; i < ids.length; i++) {
                 int id = Integer.parseInt(ids[i]);
-                digraph.addEdge(id, rootID);
+                digraph.addEdge(rootID, id);
             }
         }
         verifyDigraph(digraph);
@@ -84,7 +83,7 @@ public class WordNet {
     private void verifyDigraph(Digraph digraph) {
         DirectedCycle directedCycle = new DirectedCycle(digraph);
         if (directedCycle.hasCycle()) {
-            throw new IllegalStateException("Not a valid DAG");
+            throw new IllegalArgumentException("Not a valid DAG");
         }
 
         // checking that graph has only one root
@@ -95,7 +94,7 @@ public class WordNet {
             }
         }
         if (roots != 1) {
-            throw new IllegalStateException("Not a rooted DAG");
+            throw new IllegalArgumentException("Not a rooted DAG");
         }
 
     }
@@ -120,7 +119,7 @@ public class WordNet {
      */
     public int distance(String nounA, String nounB) {
         if (!isNoun(nounA) || !isNoun(nounB)) {
-            throw new IllegalStateException();
+            throw new IllegalArgumentException();
         }
         return sap.length(noun2ids.get(nounA), noun2ids.get(nounB));
     }
@@ -131,7 +130,7 @@ public class WordNet {
      */
     public String sap(String nounA, String nounB) {
         if (!isNoun(nounA) || !isNoun(nounB)) {
-            throw new IllegalStateException();
+            throw new IllegalArgumentException();
         }
         return id2synset.get(sap.ancestor(noun2ids.get(nounA), noun2ids.get(nounB)));
     }
