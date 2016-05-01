@@ -110,6 +110,9 @@ public class WordNet {
      * is the word a WordNet noun?
      */
     public boolean isNoun(String word) {
+        if (word == null) {
+            throw new NullPointerException("Noun can not be null");
+        }
         return noun2ids.containsKey(word);
     }
 

@@ -36,14 +36,22 @@ public class SAP {
         BreadthFirstDirectedPaths bfsV = new BreadthFirstDirectedPaths(digraph, v);
         BreadthFirstDirectedPaths bfsW = new BreadthFirstDirectedPaths(digraph, w);
 
-        int ancestor = ancestor(v, w);
-        int pathLength;
-        if (ancestor == - 1) {
-            pathLength = -1;
-        } else {
-            pathLength = bfsV.distTo(ancestor) + bfsW.distTo(ancestor);
+        int shortestPath = -1;
+        Deque<Integer> ancestors = new ArrayDeque<>();
+
+        for (int i = 0; i < this.digraph.V(); i++) {
+            if (bfsV.hasPathTo(i) && bfsW.hasPathTo(i)) {
+                ancestors.push(i);
+            }
         }
-        return pathLength;
+
+        for (Integer integer : ancestors) {
+            int path = bfsV.distTo(integer) + bfsW.distTo(integer);
+            if (shortestPath == -1 || path < shortestPath) {
+                shortestPath = path;
+            }
+        }
+        return shortestPath;
     }
 
     /**
@@ -55,8 +63,9 @@ public class SAP {
         }
         BreadthFirstDirectedPaths bfsV = new BreadthFirstDirectedPaths(digraph, v);
         BreadthFirstDirectedPaths bfsW = new BreadthFirstDirectedPaths(digraph, w);
-        int shortesAncestor = -1;
-        int shortesPath = Integer.MAX_VALUE;
+
+        int closestAncestor = -1;
+        int shortestPath = Integer.MAX_VALUE;
         Deque<Integer> ancestors = new ArrayDeque<>();
 
         for (int i = 0; i < this.digraph.V(); i++) {
@@ -66,12 +75,12 @@ public class SAP {
         }
 
         for (Integer integer : ancestors) {
-            if ((bfsV.distTo(integer) + bfsW.distTo(integer)) < shortesPath) {
-                shortesPath = (bfsV.distTo(integer) + bfsW.distTo(integer));
-                shortesAncestor = integer;
+            if ((bfsV.distTo(integer) + bfsW.distTo(integer)) < shortestPath) {
+                shortestPath = (bfsV.distTo(integer) + bfsW.distTo(integer));
+                closestAncestor = integer;
             }
         }
-        return shortesAncestor;
+        return closestAncestor;
     }
 
     /**
@@ -85,14 +94,22 @@ public class SAP {
         BreadthFirstDirectedPaths bfsV = new BreadthFirstDirectedPaths(digraph, v);
         BreadthFirstDirectedPaths bfsW = new BreadthFirstDirectedPaths(digraph, w);
 
-        int ancestor = ancestor(v, w);
-        int pathLength;
-        if (ancestor == - 1) {
-            pathLength = -1;
-        } else {
-            pathLength = bfsV.distTo(ancestor) + bfsW.distTo(ancestor);
+        int shortestPath = -1;
+        Deque<Integer> ancestors = new ArrayDeque<>();
+
+        for (int i = 0; i < this.digraph.V(); i++) {
+            if (bfsV.hasPathTo(i) && bfsW.hasPathTo(i)) {
+                ancestors.push(i);
+            }
         }
-        return pathLength;
+
+        for (Integer integer : ancestors) {
+            int path = bfsV.distTo(integer) + bfsW.distTo(integer);
+            if (shortestPath == -1 || path < shortestPath) {
+                shortestPath = path;
+            }
+        }
+        return shortestPath;
     }
 
     /**
